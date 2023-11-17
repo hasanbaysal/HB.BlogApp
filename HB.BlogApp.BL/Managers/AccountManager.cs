@@ -152,9 +152,6 @@ namespace HB.BlogApp.BL.Managers
 
         }
 
-
-        //şifre yenile talebi  => email +++ =>user => pass reset token => link  => mail
-
         public async Task<string> ForgotPassword(string email)
         {
 
@@ -174,8 +171,6 @@ namespace HB.BlogApp.BL.Managers
             return "işlem başarılı.....";
         }
 
-        //ıd ve token kontrolü => başarılı şifre yenileme sayfasına gönderme izni 
-        
         /// <summary>
         /// url'den alınan token ve id bu methoda vermeden decode etmelisin çok önemli!!!
         /// </summary>
@@ -199,9 +194,6 @@ namespace HB.BlogApp.BL.Managers
             return result;
         }
         
-
-
-
         //şifre yenileme methodu => yeni şifre / ıd / token
 
         // 
@@ -221,6 +213,14 @@ namespace HB.BlogApp.BL.Managers
         }
 
 
+
+        //bir kullanıcı kendi bilgilerini güncellemek isteyebilir
+        //kullanıcı şifre güncelleme                         => method
+        //kullanıcı temel güncelleme  => ad, soyad, telefon,  => method 1
+
+
+
+
         private string EmailComfirmLinkGenerator(string token, string UserId)
         {
             //base path www.hasan.com  yada localhost:9090 vb
@@ -236,7 +236,6 @@ namespace HB.BlogApp.BL.Managers
             return data; 
             
         }
-
 
         private string ResetPasswordLinkGenerator(string token, string UserId)
         {
@@ -271,7 +270,6 @@ namespace HB.BlogApp.BL.Managers
 
             return html;
         }
-
 
         private string GenerateResetPasswordEmail(string url)
         {

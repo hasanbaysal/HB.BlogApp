@@ -84,14 +84,3 @@ namespace HB.BlogApp.Web.Controllers
 
     }
 }
-
-
-/*
- 
- <a href=
-
-
-
-
-"https://localhost:7185?userId=805104e1-4f4c-4980-b88b-8f4722ebc972&amp;token=CfDJ8OS+jjutNZ5FgWVDIN/AjRiBqMDLufbNN051CSGG5LqzlQYZJNMjlZpIBF7A27Fkz4KMkf9Zj7t+U8H7Zr5h3sfIXAK6NiV7cIYBwHBSCeHtumFWRRnfBnxlSftkLPqb03ItUQi64XUvkFE/vivINRJiOk4hOYiEzJlwU5F/7vR9HgxXTPidDDRgldYm7Yk//g8svgI0Zi5S2NBAXdjR6XvdOqnpd4TBSWEFGmg6iFcx6nWvHecOkSTc76h17vqY6w=="
- */

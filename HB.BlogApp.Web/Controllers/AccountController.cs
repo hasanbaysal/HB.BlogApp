@@ -62,7 +62,6 @@ namespace HB.BlogApp.Web.Controllers
           
         }
 
-
         public async Task<IActionResult> PassEdit()
         {
             var ıd = TempData["ıd"].ToString();
@@ -78,5 +77,7 @@ namespace HB.BlogApp.Web.Controllers
 
             return Redirect("/");  
         }
+
+
     }
 }
