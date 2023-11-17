@@ -152,6 +152,75 @@ namespace HB.BlogApp.BL.Managers
 
         }
 
+
+        //şifre yenile talebi  => email +++ =>user => pass reset token => link  => mail
+
+        public async Task<string> ForgotPassword(string email)
+        {
+
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null) { return " böyle biri sistemde kayıtlı değil"; } 
+
+            //link => ıd ve token 
+
+            var resetToken =  await userManager.GeneratePasswordResetTokenAsync(user);
+
+            var link = ResetPasswordLinkGenerator(resetToken, user.Id);
+            var mailBody = GenerateResetPasswordEmail(link);
+
+
+            _mailService.SendMail(user.Email, "Şifre Yenlime", mailBody);
+
+            return "işlem başarılı.....";
+        }
+
+        //ıd ve token kontrolü => başarılı şifre yenileme sayfasına gönderme izni 
+        
+        /// <summary>
+        /// url'den alınan token ve id bu methoda vermeden decode etmelisin çok önemli!!!
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<bool> VerfyPasswordResetInformation(string id, string token)
+        {
+
+            //id veya token string.empty olamaz hata!!
+
+
+            var user =  await userManager.FindByIdAsync(id);
+            if (user == null) { return false; }
+
+
+            IdentityOptions options = new IdentityOptions();
+            var result = await userManager.VerifyUserTokenAsync(user, options.Tokens.PasswordResetTokenProvider, UserManager<AppUser>.ResetPasswordTokenPurpose, token);
+
+            
+            return result;
+        }
+        
+
+
+
+        //şifre yenileme methodu => yeni şifre / ıd / token
+
+        // 
+        public async Task<bool> ResetPassword(string newPassword, string id, string token)
+        {
+
+            var user = await userManager.FindByIdAsync(id);
+
+             var result=  await userManager.ResetPasswordAsync(user, token, newPassword);
+
+            if (result.Succeeded)
+            {
+                
+                await userManager.UpdateSecurityStampAsync(user);
+            }
+            return result.Succeeded;
+        }
+
+
         private string EmailComfirmLinkGenerator(string token, string UserId)
         {
             //base path www.hasan.com  yada localhost:9090 vb
@@ -168,6 +237,23 @@ namespace HB.BlogApp.BL.Managers
             
         }
 
+
+        private string ResetPasswordLinkGenerator(string token, string UserId)
+        {
+            //base path www.hasan.com  yada localhost:9090 vb
+            var uriBuilder = new UriBuilder("https://localhost:7185");
+            //path => controler ve action   a/b yada a/b/c/d.....
+            uriBuilder.Path = $"/Account/ResetPassword";
+            var queryString = HttpUtility.ParseQueryString(string.Empty);
+            queryString["userId"] = HttpUtility.UrlEncode(UserId);
+            queryString["token"] = HttpUtility.UrlEncode(token);
+            uriBuilder.Query = queryString.ToString();
+            var data = uriBuilder.ToString();
+
+            return data;
+
+        }
+
         private string GenerateAccountActivationEmail(string url)
         {
 
@@ -177,6 +263,25 @@ namespace HB.BlogApp.BL.Managers
 
                                     <h2>HOŞGELDİN</h2>
                             <a href = {url}> Hesap Aktivasyon Buraya Tıklayınız </a>
+                        </body>
+    
+    
+    
+                       </html>";
+
+            return html;
+        }
+
+
+        private string GenerateResetPasswordEmail(string url)
+        {
+
+            var html = $@"<html><head></head>
+                    
+                        <body>
+
+                                   
+                            <a href = {url}> şifre yenilemek için buraya yıkla</a>
                         </body>
     
     
