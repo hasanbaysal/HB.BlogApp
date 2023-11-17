@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model CategoryAddDto
+<form asp-action="AddCategory" method="post">
+
+    <input placeholder="category name" asp-for="CategoryName" />
+    <button type="submit">Ekle </button>
+</form>

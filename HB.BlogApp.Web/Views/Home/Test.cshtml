@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Test";
+}
+
+<h1>Test</h1>
+
+@if(User.Identity.IsAuthenticated){
+
+    <h2>oturum açık</h2>
+}
+else
+{
+    <h2>oturum açık değil</h2>
+}
