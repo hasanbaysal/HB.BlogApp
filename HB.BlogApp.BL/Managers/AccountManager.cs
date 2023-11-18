@@ -115,8 +115,14 @@ namespace HB.BlogApp.BL.Managers
                 
                 errors.Add(" kullanıcı adı yada şifre hatalı");
                 return errors;
-            }
 
+            }
+            if (user.isBanned)
+            {
+                errors.Add(" bu kullanıcı sistemden kalıcı olarak uzaklaştırılmıştır");
+                return errors;
+
+            }
 
 
             var result =  await signInManager.PasswordSignInAsync(user, dto.Password, dto.ısRememberMe, true);
@@ -234,8 +240,6 @@ namespace HB.BlogApp.BL.Managers
 
         }
 
-
-
         public async Task<bool> PasswordChange(PasswordUpdateDto dto)
         {
             //dto viewmodel gibi kullabilirim yada viewmodel model kullanırım
@@ -280,8 +284,6 @@ namespace HB.BlogApp.BL.Managers
             return false;
         }
     
-
-
 
         private string EmailComfirmLinkGenerator(string token, string UserId)
         {

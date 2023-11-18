@@ -19,8 +19,6 @@ namespace HB.BlogApp.BL.Services
         public Task<bool> EmailActivation(string token, string userId);
 
         public Task<List<string>> SignInAsync(UserLoginDto dto);
-
-
         /// <summary>
         /// url'den alınan token ve id bu methoda vermeden decode etmelisin çok önemli!!!
         /// </summary>
@@ -39,6 +37,8 @@ namespace HB.BlogApp.BL.Services
         public Task<string> ForgotPassword(string email);
 
         public Task<bool> UpdateUserInformation(UpdateUserDto dto);
+
+        public Task<bool> PasswordChange(PasswordUpdateDto dto);
     }
 
 }
