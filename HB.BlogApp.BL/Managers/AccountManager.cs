@@ -236,19 +236,50 @@ namespace HB.BlogApp.BL.Managers
 
 
 
-        public async Task<bool> PasswordChange(string oldPassword, string newPassword,string userId)
+        public async Task<bool> PasswordChange(PasswordUpdateDto dto)
         {
+            //dto viewmodel gibi kullabilirim yada viewmodel model kullanırım
+            //data annotation girerim bunla bir UI'da validation
 
-            //userManager.CheckPasswordAsync
+
+            //dto ====> bl ===> ilgili methodun => validasyon 
+
+
+            //fluent validation 
+            //password update dto için validation rule yazarsın
+            //bu methodun en başında bu validation kurallarını ilgili dto için bir kontrol
+            //ettririsin
+
+            var user = await userManager.FindByIdAsync(dto.ıd);
+
+            var control = await userManager.CheckPasswordAsync(user, dto.oldPassword);
+
+            if (control)
+            {
+                 var result =  await userManager.ChangePasswordAsync(user, dto.oldPassword, dto.newPassword);
+                //bir işlem başarılı
+                //iki işlem başarısız ve hata mesajları(ilgili validation kurallarına takılır )
+
+
+                if (!result.Succeeded)
+                {
+
+                    
+                    return false;
+                }
+                
+               
+                return true;
+            }
+
+
             //userManager.ChangePasswordAsync
 
             //cookie refresh
 
             return false;
         }
-        //bir kullanıcı kendi bilgilerini güncellemek isteyebilir
-        //kullanıcı şifre güncelleme                         => method
-        //kullanıcı temel güncelleme  => ad, soyad, telefon,  => method 1
+    
 
 
 
