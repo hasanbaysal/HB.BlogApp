@@ -171,12 +171,7 @@ namespace HB.BlogApp.BL.Managers
             return "işlem başarılı.....";
         }
 
-        /// <summary>
-        /// url'den alınan token ve id bu methoda vermeden decode etmelisin çok önemli!!!
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
+    
         public async Task<bool> VerfyPasswordResetInformation(string id, string token)
         {
 
@@ -194,9 +189,7 @@ namespace HB.BlogApp.BL.Managers
             return result;
         }
         
-        //şifre yenileme methodu => yeni şifre / ıd / token
-
-        // 
+       
         public async Task<bool> ResetPassword(string newPassword, string id, string token)
         {
 
@@ -213,11 +206,49 @@ namespace HB.BlogApp.BL.Managers
         }
 
 
+        public async Task<bool> UpdateUserInformation(UpdateUserDto dto)
+        {
 
+            //kullanıcı profili ile alakalı bir dto oluşturacan
+            //mapper convert
+
+
+            var  user =  await userManager.FindByIdAsync(dto.Id);
+
+            user.Name = dto.Name;
+            user.SurName = dto.SurName;
+            user.PhoneNumber = dto.PhoneNumber;
+            
+
+            var result = await userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+
+                //cookie refresh
+                await userManager.UpdateSecurityStampAsync(user);
+                await signInManager.SignOutAsync();
+                await signInManager.SignInAsync(user, false);
+            }
+
+            return false;
+
+        }
+
+
+
+        public async Task<bool> PasswordChange(string oldPassword, string newPassword)
+        {
+
+            //userManager.CheckPasswordAsync
+            //userManager.ChangePasswordAsync
+
+            //cookie refresh
+
+            return false;
+        }
         //bir kullanıcı kendi bilgilerini güncellemek isteyebilir
         //kullanıcı şifre güncelleme                         => method
         //kullanıcı temel güncelleme  => ad, soyad, telefon,  => method 1
-
 
 
 
