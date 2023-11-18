@@ -236,7 +236,7 @@ namespace HB.BlogApp.BL.Managers
 
 
 
-        public async Task<bool> PasswordChange(string oldPassword, string newPassword)
+        public async Task<bool> PasswordChange(string oldPassword, string newPassword,string userId)
         {
 
             //userManager.CheckPasswordAsync

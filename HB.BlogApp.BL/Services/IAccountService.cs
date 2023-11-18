@@ -37,6 +37,8 @@ namespace HB.BlogApp.BL.Services
         /// <returns></returns>
         public Task<bool> ResetPassword(string newPassword, string id, string token);
         public Task<string> ForgotPassword(string email);
+
+        public Task<bool> UpdateUserInformation(UpdateUserDto dto);
     }
 
 }
